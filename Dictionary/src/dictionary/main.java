@@ -5,8 +5,6 @@ public class main {
         Dictionary dictionary = new Dictionary();
         DictionaryManagement dictionaryManagement = new DictionaryManagement(dictionary);
         DictionaryCommandLine dictionaryCommandLine = new DictionaryCommandLine(dictionaryManagement);
-        dictionaryCommandLine.dictionaryBasic();
-        
+        dictionaryCommandLine.dictionaryRun();
     }
-
 }
