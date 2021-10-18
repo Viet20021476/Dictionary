@@ -1,0 +1,132 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>JavaGoogleSpeechRecognizer</groupId>
+    <artifactId>JavaGoogleSpeechRecognizer</artifactId>
+    <version>1.0.0</version>
+    
+    <build>
+        
+        
+        
+        <sourceDirectory>src</sourceDirectory>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <mainClass>
+                                        dictionary.Vit_Home
+                                    </mainClass>
+                                </manifest>
+                            </archive>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            
+        </plugins>
+    </build>
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <!-- <dependency> <groupId>com.github.lkuza2</groupId> <artifactId>java-speech-api</artifactId> 
+        <version>v2.02</version> </dependency> -->
+        <dependency>
+            <groupId>com.github.goxr3plus</groupId>
+            <artifactId>java-google-speech-api</artifactId>
+            <version>V2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>cmu</groupId>
+            <artifactId>cmu_time_awb</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>cmu</groupId>
+            <artifactId>cmu_us_kal</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>cmu</groupId>
+            <artifactId>cmudict04</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>cmu</groupId>
+            <artifactId>cmulex</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>cmu</groupId>
+            <artifactId>cmutimelex</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>en</groupId>
+            <artifactId>en_us</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>free</groupId>
+            <artifactId>freetts</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>free</groupId>
+            <artifactId>freetts-jsapi10</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>m</groupId>
+            <artifactId>mbrola</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>sqlite</groupId>
+            <artifactId>sqlite-jdbc-3.36.0.3</artifactId>
+            <version>3.36.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.external</groupId>
+            <artifactId>AbsoluteLayout</artifactId>
+            <version>RELEASE124</version>
+        </dependency>
+    </dependencies>
+
+    <name>testMaven</name>
+    <description>Made by GOXR3PLUS STUDIO based on  https://github.com/lkuza2/java-speech-api/</description>
+    <organization>
+        <name>GOXR3PLUS STUDIO</name>
+    </organization>
+    <properties>
+        <maven.compiler.source>15</maven.compiler.source>
+        <maven.compiler.target>15</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+</project>
