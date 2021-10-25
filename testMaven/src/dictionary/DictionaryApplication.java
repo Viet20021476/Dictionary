@@ -140,6 +140,7 @@ public class DictionaryApplication extends javax.swing.JFrame implements ActionL
         editBtn.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         editBtn.setText("Sửa");
 
+        txtWordex.setEditable(false);
         scrollWordex.setViewportView(txtWordex);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -528,74 +529,76 @@ public class DictionaryApplication extends javax.swing.JFrame implements ActionL
         String inputWordTarget = (String) JOptionPane.showInputDialog(rootPane, 
                 "Nhập từ bạn muốn thêm", "Thêm từ",
                 JOptionPane.PLAIN_MESSAGE);
-        boolean isWordExists = false;
-        for (Word word : words_list) {
-            if (word.getWord_target().equals(inputWordTarget)) {
-                isWordExists = true;
+        if (inputWordTarget != null) {
+            boolean isWordExists = false;
+            for (Word word : words_list) {
+                if (word.getWord_target().equals(inputWordTarget)) {
+                    isWordExists = true;
+                }
             }
-        }
-        if (isWordExists) {
-            JOptionPane.showMessageDialog(rootPane, 
-                "Từ này đã tồn tại trong từ điển!", "Lỗi",
-                JOptionPane.ERROR_MESSAGE);
-        } else {
-            String htmlEx = "<h1>" + inputWordTarget + "</h1>";
-            String description = "";
-            String inputWordPronounce = (String) JOptionPane.showInputDialog(rootPane, 
-                "Nhập cách phát âm của từ", "Thêm cách phát âm",
-                JOptionPane.PLAIN_MESSAGE);
-            htmlEx += "<h3><i>/" + inputWordPronounce + "/</i></h3>";
-            
-            Object[] possibleValues = { 1, 2, 3, 4, 5, 6, 7, 8 , 9, 10, 11, 12, 13, 14, 15};
-            int numberOfTypes = (int) JOptionPane.showInputDialog(null,
-            "Từ này có thể có mấy loại?", "Số loại từ",
-            JOptionPane.INFORMATION_MESSAGE, null,
-            possibleValues, possibleValues[0]);
-            
-            Object[] possibleTypes = {"danh từ", "động từ", "tính từ", "đại từ",
-            "phó từ", "giới từ", "liên từ", "thán từ"};
-            
-            for (int i = 1; i <= numberOfTypes; i++) {
-                String selectedType = (String) JOptionPane.showInputDialog(null,
-                "Chọn loại từ " + i + " để bổ sung nghĩa", "Chọn loại từ",
-                JOptionPane.INFORMATION_MESSAGE, null,
-                possibleTypes, possibleTypes[0]);
-                htmlEx += "<h2>" + selectedType + "</h2><ul>";
+            if (isWordExists) {
+                JOptionPane.showMessageDialog(rootPane, 
+                    "Từ này đã tồn tại trong từ điển!", "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
+            } else {
+                String htmlEx = "<h1>" + inputWordTarget + "</h1>";
+                String description = "";
+                String inputWordPronounce = (String) JOptionPane.showInputDialog(rootPane, 
+                    "Nhập cách phát âm của từ", "Thêm cách phát âm",
+                    JOptionPane.PLAIN_MESSAGE);
+                htmlEx += "<h3><i>/" + inputWordPronounce + "/</i></h3>";
 
-                int numberOfDescriptions = (int) JOptionPane.showInputDialog(null,
-                "Loại từ này có thể có mấy nghĩa?", "Số nghĩa của loại từ",
+                Object[] possibleValues = { 1, 2, 3, 4, 5, 6, 7, 8 , 9, 10, 11, 12, 13, 14, 15};
+                int numberOfTypes = (int) JOptionPane.showInputDialog(null,
+                "Từ này có thể có mấy loại?", "Số loại từ",
                 JOptionPane.INFORMATION_MESSAGE, null,
                 possibleValues, possibleValues[0]);
-                
-                for (int j = 1; j <= numberOfDescriptions; j++) {
-                    String explain = (String) JOptionPane.showInputDialog(rootPane, 
-                    "Nhập nghĩa " + j + " của từ", "Thêm nghĩa",
-                    JOptionPane.PLAIN_MESSAGE);
-                    description += selectedType + ": " + explain + '\n';
-                    htmlEx += "<li>" + explain + "</li>";
+
+                Object[] possibleTypes = {"danh từ", "động từ", "tính từ", "đại từ",
+                "phó từ", "giới từ", "liên từ", "thán từ"};
+
+                for (int i = 1; i <= numberOfTypes; i++) {
+                    String selectedType = (String) JOptionPane.showInputDialog(null,
+                    "Chọn loại từ " + i + " để bổ sung nghĩa", "Chọn loại từ",
+                    JOptionPane.INFORMATION_MESSAGE, null,
+                    possibleTypes, possibleTypes[0]);
+                    htmlEx += "<h2>" + selectedType + "</h2><ul>";
+
+                    int numberOfDescriptions = (int) JOptionPane.showInputDialog(null,
+                    "Loại từ này có thể có mấy nghĩa?", "Số nghĩa của loại từ",
+                    JOptionPane.INFORMATION_MESSAGE, null,
+                    possibleValues, possibleValues[0]);
+
+                    for (int j = 1; j <= numberOfDescriptions; j++) {
+                        String explain = (String) JOptionPane.showInputDialog(rootPane, 
+                        "Nhập nghĩa " + j + " của từ", "Thêm nghĩa",
+                        JOptionPane.PLAIN_MESSAGE);
+                        description += selectedType + ": " + explain + '\n';
+                        htmlEx += "<li>" + explain + "</li>";
+                    }
+                    htmlEx += "</ul>";
                 }
-                htmlEx += "</ul>";
+
+                Connection connection = null;
+                PreparedStatement statement = null;
+                try {
+                    connection = DriverManager.getConnection("jdbc:sqlite:dict_hh.db");
+                    String insertSQL = "INSERT INTO av (id, word, html, description, pronounce) VALUES (?, ?, ?, ?, ?)";
+                    statement = connection.prepareStatement(insertSQL);
+                    statement.setInt(1, list_mod.size() + 1);
+                    statement.setString(2, inputWordTarget);
+                    statement.setString(3, htmlEx);
+                    statement.setString(4, description);
+                    statement.setString(5, inputWordPronounce);
+                    statement.executeUpdate();
+                } catch (SQLException ex) {
+                    Logger.getLogger(DictionaryApplication.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                Word wordToAdd = new Word(inputWordTarget, "<html>" + htmlEx + "</html>");
+                words_list.add(wordToAdd);
+                list_mod.addElement(wordToAdd.getWord_target());
+                listOfWords.setModel(list_mod);
             }
-            
-            Connection connection = null;
-            PreparedStatement statement = null;
-            try {
-                connection = DriverManager.getConnection("jdbc:sqlite:dict_hh.db");
-                String insertSQL = "INSERT INTO av (id, word, html, description, pronounce) VALUES (?, ?, ?, ?, ?)";
-                statement = connection.prepareStatement(insertSQL);
-                statement.setInt(1, list_mod.size() + 1);
-                statement.setString(2, inputWordTarget);
-                statement.setString(3, htmlEx);
-                statement.setString(4, description);
-                statement.setString(5, inputWordPronounce);
-                statement.executeUpdate();
-            } catch (SQLException ex) {
-                Logger.getLogger(DictionaryApplication.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            Word wordToAdd = new Word(inputWordTarget, "<html>" + htmlEx + "</html>");
-            words_list.add(wordToAdd);
-            list_mod.addElement(wordToAdd.getWord_target());
-            listOfWords.setModel(list_mod);
         }
     }
     
