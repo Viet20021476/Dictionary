@@ -28,15 +28,15 @@ import javax.swing.JScrollBar;
  *
  * @author Admin
  */
-public class Home extends javax.swing.JFrame implements ActionListener {
+public class DictionaryApplication extends javax.swing.JFrame implements ActionListener {
 
     private ArrayList<Word> words_list;
     private DefaultListModel<String> list_mod;
 
     /**
-     * Creates new form Vit_Home
+     * Creates new form Vit_DictionaryApplication
      */
-    public Home() {
+    public DictionaryApplication() {
         initComponents();
         setLocationRelativeTo(null);
         words_list = readWordsFromDB();
@@ -56,8 +56,6 @@ public class Home extends javax.swing.JFrame implements ActionListener {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jScrollPane5 = new javax.swing.JScrollPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
@@ -207,7 +205,7 @@ public class Home extends javax.swing.JFrame implements ActionListener {
         jPanel2.setFocusTraversalPolicyProvider(true);
 
         CBBFrom.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        CBBFrom.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tiếng Việt", "Tiếng Anh", "Tiếng Trung" }));
+        CBBFrom.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tiếng Việt", "Tiếng Anh" }));
 
         txtFrom.setColumns(20);
         txtFrom.setRows(5);
@@ -224,7 +222,7 @@ public class Home extends javax.swing.JFrame implements ActionListener {
         jScrollPane4.setViewportView(txtTo);
 
         CBBTo.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        CBBTo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tiếng Việt", "Tiếng Anh", "Tiếng Trung" }));
+        CBBTo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tiếng Việt", "Tiếng Anh" }));
 
         translateBtn.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         translateBtn.setText("Dịch");
@@ -346,36 +344,7 @@ public class Home extends javax.swing.JFrame implements ActionListener {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Home().setVisible(true);
-            }
-        });
+        DictionaryApplication.runApplication();
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> CBBFrom;
@@ -396,10 +365,8 @@ public class Home extends javax.swing.JFrame implements ActionListener {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JList<String> listOfWords;
     private javax.swing.JScrollPane scroll;
@@ -412,6 +379,41 @@ public class Home extends javax.swing.JFrame implements ActionListener {
     private javax.swing.JTextPane txtWordex;
     // End of variables declaration//GEN-END:variables
 
+    public static void runApplication() {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(DictionaryApplication.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(DictionaryApplication.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(DictionaryApplication.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(DictionaryApplication.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new DictionaryApplication().setVisible(true);
+            }
+        });
+    }
+    
     public ArrayList<Word> readWordsFromDB() {
         ArrayList<Word> words_list = new ArrayList<Word>();
         Connection connection = null;
@@ -433,7 +435,7 @@ public class Home extends javax.swing.JFrame implements ActionListener {
                 words_list.add(new Word(word_target, "<html>" + word_explain + "</html>"));
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DictionaryApplication.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return words_list;
@@ -469,7 +471,7 @@ public class Home extends javax.swing.JFrame implements ActionListener {
             try {
                 translate();
             } catch (IOException ex) {
-                Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DictionaryApplication.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (obj.equals(speakBtn)) {
             speak();
@@ -512,7 +514,7 @@ public class Home extends javax.swing.JFrame implements ActionListener {
                         editStatement.executeUpdate();
                     }
                 } catch (SQLException ex) {
-                    Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DictionaryApplication.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
                 words_list.remove(wordToDelete);
@@ -537,27 +539,60 @@ public class Home extends javax.swing.JFrame implements ActionListener {
                 "Từ này đã tồn tại trong từ điển!", "Lỗi",
                 JOptionPane.ERROR_MESSAGE);
         } else {
-            String inputWordExplain = (String) JOptionPane.showInputDialog(rootPane, 
-                "Nhập giải nghĩa của từ", "Thêm giải nghĩa",
+            String htmlEx = "<h1>" + inputWordTarget + "</h1>";
+            String description = "";
+            String inputWordPronounce = (String) JOptionPane.showInputDialog(rootPane, 
+                "Nhập cách phát âm của từ", "Thêm cách phát âm",
                 JOptionPane.PLAIN_MESSAGE);
+            htmlEx += "<h3><i>/" + inputWordPronounce + "/</i></h3>";
+            
+            Object[] possibleValues = { 1, 2, 3, 4, 5, 6, 7, 8 , 9, 10, 11, 12, 13, 14, 15};
+            int numberOfTypes = (int) JOptionPane.showInputDialog(null,
+            "Từ này có thể có mấy loại?", "Số loại từ",
+            JOptionPane.INFORMATION_MESSAGE, null,
+            possibleValues, possibleValues[0]);
+            
+            Object[] possibleTypes = {"danh từ", "động từ", "tính từ", "đại từ",
+            "phó từ", "giới từ", "liên từ", "thán từ"};
+            
+            for (int i = 1; i <= numberOfTypes; i++) {
+                String selectedType = (String) JOptionPane.showInputDialog(null,
+                "Chọn loại từ " + i + " để bổ sung nghĩa", "Chọn loại từ",
+                JOptionPane.INFORMATION_MESSAGE, null,
+                possibleTypes, possibleTypes[0]);
+                htmlEx += "<h2>" + selectedType + "</h2><ul>";
+
+                int numberOfDescriptions = (int) JOptionPane.showInputDialog(null,
+                "Loại từ này có thể có mấy nghĩa?", "Số nghĩa của loại từ",
+                JOptionPane.INFORMATION_MESSAGE, null,
+                possibleValues, possibleValues[0]);
+                
+                for (int j = 1; j <= numberOfDescriptions; j++) {
+                    String explain = (String) JOptionPane.showInputDialog(rootPane, 
+                    "Nhập nghĩa " + j + " của từ", "Thêm nghĩa",
+                    JOptionPane.PLAIN_MESSAGE);
+                    description += selectedType + ": " + explain + '\n';
+                    htmlEx += "<li>" + explain + "</li>";
+                }
+                htmlEx += "</ul>";
+            }
+            
             Connection connection = null;
             PreparedStatement statement = null;
             try {
                 connection = DriverManager.getConnection("jdbc:sqlite:dict_hh.db");
-                String insertSQL = "INSERT INTO av (id, word, html, description) VALUES (?, ?, ?, ?)";
+                String insertSQL = "INSERT INTO av (id, word, html, description, pronounce) VALUES (?, ?, ?, ?, ?)";
                 statement = connection.prepareStatement(insertSQL);
                 statement.setInt(1, list_mod.size() + 1);
                 statement.setString(2, inputWordTarget);
-                String htmlEx = "<h1>" + inputWordTarget + "</h1>"
-                        + "<ul><li>" + inputWordExplain + "</li></ul>";
                 statement.setString(3, htmlEx);
-                statement.setString(4, inputWordExplain);
+                statement.setString(4, description);
+                statement.setString(5, inputWordPronounce);
                 statement.executeUpdate();
-                inputWordExplain = htmlEx;
             } catch (SQLException ex) {
-                Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DictionaryApplication.class.getName()).log(Level.SEVERE, null, ex);
             }
-            Word wordToAdd = new Word(inputWordTarget, "<html>" + inputWordExplain + "</html>");
+            Word wordToAdd = new Word(inputWordTarget, "<html>" + htmlEx + "</html>");
             words_list.add(wordToAdd);
             list_mod.addElement(wordToAdd.getWord_target());
             listOfWords.setModel(list_mod);
@@ -601,24 +636,24 @@ public class Home extends javax.swing.JFrame implements ActionListener {
                         wordStatement.setInt(2, id);
                         wordStatement.executeUpdate();
                         
-                        String readSQL = "SELECT description FROM av WHERE id = " + id;
+                        String readSQL = "SELECT html FROM av WHERE id = " + id;
                         readDesStatement = connection.createStatement();
                         ResultSet resultset = readDesStatement.executeQuery(readSQL);
 
-                        String description = resultset.getString("description");
+                        String htmlOld = resultset.getString("html");
                         
                         updateSQL = "UPDATE av SET html = ? WHERE id = ?";
                         exStatement = connection.prepareStatement(updateSQL);
-                        String htmlEx = "<h1>" + editWordTarget + "</h1>"
-                        + "<ul><li>" + description + "</li></ul>";
-                        exStatement.setString(1, htmlEx);
+                        String htmlNew = htmlOld.replaceFirst(listOfWords.getSelectedValue()
+                        , editWordTarget);
+                        exStatement.setString(1, htmlNew);
                         exStatement.setInt(2, id);
                         exStatement.executeUpdate();
                         
                         words_list.get(listOfWords.getSelectedIndex())
-                            .setWord_explain(htmlEx);
+                            .setWord_explain(htmlNew);
                     } catch (SQLException ex) {
-                        Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(DictionaryApplication.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     
                     words_list.get(listOfWords.getSelectedIndex())
@@ -628,32 +663,74 @@ public class Home extends javax.swing.JFrame implements ActionListener {
                 }
             }
             if (returnValue == JOptionPane.NO_OPTION) {
-                String editWordExplain = (String) JOptionPane.showInputDialog(rootPane, 
-                        "Bạn muốn sửa giải nghĩa như thế nào?", "Sửa giải nghĩa",
+                String htmlEx = "<h1>" + listOfWords.getSelectedValue() + "</h1>";
+                String description = "";
+                String pronounce = (String) JOptionPane.showInputDialog(rootPane, 
+                    "Nhập cách phát âm của từ", "Thêm cách phát âm",
+                    JOptionPane.PLAIN_MESSAGE);
+                htmlEx += "<h3><i>/" + pronounce + "/</i></h3>";
+
+                Object[] possibleValues = { 1, 2, 3, 4, 5, 6, 7, 8 , 9, 10, 11, 12, 13, 14, 15};
+                int numberOfTypes = (int) JOptionPane.showInputDialog(null,
+                "Từ này có thể có mấy loại?", "Số loại từ",
+                JOptionPane.INFORMATION_MESSAGE, null,
+                possibleValues, possibleValues[0]);
+
+                Object[] possibleTypes = {"danh từ", "động từ", "tính từ", "đại từ",
+                "phó từ", "giới từ", "liên từ", "thán từ"};
+
+                for (int i = 1; i <= numberOfTypes; i++) {
+                    String selectedType = (String) JOptionPane.showInputDialog(null,
+                    "Chọn loại từ " + i + " để bổ sung nghĩa", "Chọn loại từ",
+                    JOptionPane.INFORMATION_MESSAGE, null,
+                    possibleTypes, possibleTypes[0]);
+                    htmlEx += "<h2>" + selectedType + "</h2><ul>";
+
+                    int numberOfDescriptions = (int) JOptionPane.showInputDialog(null,
+                    "Loại từ này có thể có mấy nghĩa?", "Số nghĩa của loại từ",
+                    JOptionPane.INFORMATION_MESSAGE, null,
+                    possibleValues, possibleValues[0]);
+
+                    for (int j = 1; j <= numberOfDescriptions; j++) {
+                        String explain = (String) JOptionPane.showInputDialog(rootPane, 
+                        "Nhập nghĩa " + j + " của từ", "Thêm nghĩa",
                         JOptionPane.PLAIN_MESSAGE);
+                        description += selectedType + ": " + explain + '\n';
+                        htmlEx += "<li>" + explain + "</li>";
+                    }
+                    htmlEx += "</ul>";
+                }
+                
                 Connection connection = null;
                 PreparedStatement htmlStatement = null;
                 PreparedStatement desStatement = null;
+                PreparedStatement proStatement = null;
+                int id = listOfWords.getSelectedIndex() + 1;
                 try {
                     connection = DriverManager.getConnection("jdbc:sqlite:dict_hh.db");
 
                     String updateSQL = "UPDATE av SET html = ? WHERE id = ?";
                     htmlStatement = connection.prepareStatement(updateSQL);
-                    String htmlEx = "<h1>" + listOfWords.getSelectedValue() + "</h1>"
-                            + "<ul><li>" + editWordExplain + "</li></ul>";
                     htmlStatement.setString(1, htmlEx);
-                    htmlStatement.setInt(2, list_mod.size() + 1);
+                    htmlStatement.setInt(2, id);
                     htmlStatement.executeUpdate();
 
                     updateSQL = "UPDATE av SET description = ? WHERE id = ?";
                     desStatement = connection.prepareStatement(updateSQL);
-                    desStatement.setString(1, editWordExplain);
-                    desStatement.setInt(2, list_mod.size() + 1);
+                    desStatement.setString(1, description);
+                    desStatement.setInt(2, id);
                     desStatement.executeUpdate();
+                    
+                    updateSQL = "UPDATE av SET pronounce = ? WHERE id = ?";
+                    proStatement = connection.prepareStatement(updateSQL);
+                    proStatement.setString(1, pronounce);
+                    proStatement.setInt(2, id);
+                    proStatement.executeUpdate();
+                    
                     words_list.get(listOfWords.getSelectedIndex())
                         .setWord_explain(htmlEx);
                 } catch (SQLException ex) {
-                    Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DictionaryApplication.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -680,8 +757,6 @@ public class Home extends javax.swing.JFrame implements ActionListener {
                 return "vi";
             case "Tiếng Anh":
                 return "en";
-            case "Tiếng Trung":
-                return "zh";
             default:
                 break;
         }
