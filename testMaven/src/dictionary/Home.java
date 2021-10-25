@@ -16,6 +16,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -59,9 +60,6 @@ public class Home extends javax.swing.JFrame implements ActionListener {
         jScrollPane5 = new javax.swing.JScrollPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
-        jLabel6 = new javax.swing.JLabel();
-        jScrollPane7 = new javax.swing.JScrollPane();
-        jTextPane1 = new javax.swing.JTextPane();
         jLabel1 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
@@ -97,10 +95,6 @@ public class Home extends javax.swing.JFrame implements ActionListener {
             public String getElementAt(int i) { return strings[i]; }
         });
         jScrollPane1.setViewportView(jList1);
-
-        jLabel6.setText("jLabel6");
-
-        jScrollPane7.setViewportView(jTextPane1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("TỪ ĐIỂN OFFLINE");
@@ -394,7 +388,6 @@ public class Home extends javax.swing.JFrame implements ActionListener {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JList<String> jList1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -407,9 +400,7 @@ public class Home extends javax.swing.JFrame implements ActionListener {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextPane jTextPane1;
     private javax.swing.JList<String> listOfWords;
     private javax.swing.JScrollPane scroll;
     private javax.swing.JScrollPane scrollWordex;
@@ -482,8 +473,189 @@ public class Home extends javax.swing.JFrame implements ActionListener {
             }
         } else if (obj.equals(speakBtn)) {
             speak();
-        } else if (obj.equals(addBtn) || obj.equals(deleteBtn) || obj.equals(editBtn)) {
-            JOptionPane.showMessageDialog(rootPane, "Không được can thiệp vào cơ sở dữ liệu!");
+        } else if (obj.equals(addBtn)) {
+            add();
+        } else if (obj.equals(editBtn)) {
+            edit();
+        } else if (obj.equals(deleteBtn)) {
+            delete();
+        }
+    }
+    
+    public void delete() {
+        if (listOfWords.getSelectedValue() == null) {
+            JOptionPane.showMessageDialog(rootPane, "Hãy chọn một từ để xóa!");
+        } else {
+            Object[] options = { "Có", "Không" };
+            int returnValue = JOptionPane.showOptionDialog(rootPane, 
+                    "Bạn có chắc muốn xóa từ này không?", "Cảnh báo",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
+                    null, options, options[0]);
+            if (returnValue == JOptionPane.YES_OPTION) {
+                Word wordToDelete = new Word(listOfWords.getSelectedValue(), "");
+                wordToDelete.setWord_explain(findWordEx(wordToDelete.getWord_target()));
+                
+                Connection connection = null;
+                PreparedStatement deleteStatement = null;
+                PreparedStatement editStatement = null;
+                try {
+                    connection = DriverManager.getConnection("jdbc:sqlite:dict_hh.db");
+                    String deleteSQL = "DELETE FROM av WHERE id = ?";
+                    deleteStatement = connection.prepareStatement(deleteSQL);
+                    deleteStatement.setInt(1, listOfWords.getSelectedIndex() + 1);
+                    deleteStatement.executeUpdate();
+                    
+                    for (int i = listOfWords.getSelectedIndex() + 2; i <= list_mod.getSize(); i++) {
+                        String updateSQLid = "UPDATE av SET id = id - 1 WHERE id = ?";
+                        editStatement = connection.prepareStatement(updateSQLid);
+                        editStatement.setInt(1, i);
+                        editStatement.executeUpdate();
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                words_list.remove(wordToDelete);
+                list_mod.removeElement(wordToDelete.getWord_target());
+                listOfWords.setModel(list_mod);
+            }
+        }
+    }
+    
+    public void add() {
+        String inputWordTarget = (String) JOptionPane.showInputDialog(rootPane, 
+                "Nhập từ bạn muốn thêm", "Thêm từ",
+                JOptionPane.PLAIN_MESSAGE);
+        boolean isWordExists = false;
+        for (Word word : words_list) {
+            if (word.getWord_target().equals(inputWordTarget)) {
+                isWordExists = true;
+            }
+        }
+        if (isWordExists) {
+            JOptionPane.showMessageDialog(rootPane, 
+                "Từ này đã tồn tại trong từ điển!", "Lỗi",
+                JOptionPane.ERROR_MESSAGE);
+        } else {
+            String inputWordExplain = (String) JOptionPane.showInputDialog(rootPane, 
+                "Nhập giải nghĩa của từ", "Thêm giải nghĩa",
+                JOptionPane.PLAIN_MESSAGE);
+            Connection connection = null;
+            PreparedStatement statement = null;
+            try {
+                connection = DriverManager.getConnection("jdbc:sqlite:dict_hh.db");
+                String insertSQL = "INSERT INTO av (id, word, html, description) VALUES (?, ?, ?, ?)";
+                statement = connection.prepareStatement(insertSQL);
+                statement.setInt(1, list_mod.size() + 1);
+                statement.setString(2, inputWordTarget);
+                String htmlEx = "<h1>" + inputWordTarget + "</h1>"
+                        + "<ul><li>" + inputWordExplain + "</li></ul>";
+                statement.setString(3, htmlEx);
+                statement.setString(4, inputWordExplain);
+                statement.executeUpdate();
+                inputWordExplain = htmlEx;
+            } catch (SQLException ex) {
+                Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            Word wordToAdd = new Word(inputWordTarget, "<html>" + inputWordExplain + "</html>");
+            words_list.add(wordToAdd);
+            list_mod.addElement(wordToAdd.getWord_target());
+            listOfWords.setModel(list_mod);
+        }
+    }
+    
+    public void edit() {
+        if (listOfWords.getSelectedValue() == null) {
+            JOptionPane.showMessageDialog(rootPane, "Hãy chọn một từ để sửa!");
+        } else {
+            Object[] options = { "Từ", "Nghĩa"};
+            int returnValue = JOptionPane.showOptionDialog(rootPane, 
+                    "Bạn muốn sửa từ hay sửa nghĩa?", "",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE,
+                    null, options, options[0]);
+            if (returnValue == JOptionPane.YES_OPTION) {
+                String editWordTarget = (String) JOptionPane.showInputDialog(rootPane, 
+                "Bạn muốn sửa thành từ gì?", "Sửa từ",
+                JOptionPane.PLAIN_MESSAGE);
+                boolean isWordExists = false;
+                for (Word word : words_list) {
+                    if (word.getWord_target().equals(editWordTarget)) {
+                        isWordExists = true;
+                    }
+                }
+                if (isWordExists) {
+                    JOptionPane.showMessageDialog(rootPane, 
+                        "Từ này đã tồn tại trong từ điển!", "Lỗi",
+                        JOptionPane.ERROR_MESSAGE);
+                } else {
+                    Connection connection = null;
+                    PreparedStatement wordStatement = null;
+                    Statement readDesStatement = null;
+                    PreparedStatement exStatement = null;
+                    int id = listOfWords.getSelectedIndex() + 1;
+                    try {
+                        connection = DriverManager.getConnection("jdbc:sqlite:dict_hh.db");
+                        String updateSQL = "UPDATE av SET word = ? WHERE id = ?";
+                        wordStatement = connection.prepareStatement(updateSQL);
+                        wordStatement.setString(1, editWordTarget);
+                        wordStatement.setInt(2, id);
+                        wordStatement.executeUpdate();
+                        
+                        String readSQL = "SELECT description FROM av WHERE id = " + id;
+                        readDesStatement = connection.createStatement();
+                        ResultSet resultset = readDesStatement.executeQuery(readSQL);
+
+                        String description = resultset.getString("description");
+                        
+                        updateSQL = "UPDATE av SET html = ? WHERE id = ?";
+                        exStatement = connection.prepareStatement(updateSQL);
+                        String htmlEx = "<h1>" + editWordTarget + "</h1>"
+                        + "<ul><li>" + description + "</li></ul>";
+                        exStatement.setString(1, htmlEx);
+                        exStatement.setInt(2, id);
+                        exStatement.executeUpdate();
+                        
+                        words_list.get(listOfWords.getSelectedIndex())
+                            .setWord_explain(htmlEx);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                    words_list.get(listOfWords.getSelectedIndex())
+                            .setWord_target(editWordTarget);
+                    list_mod.setElementAt(editWordTarget, listOfWords.getSelectedIndex());
+                    listOfWords.setModel(list_mod);
+                }
+            }
+            if (returnValue == JOptionPane.NO_OPTION) {
+                String editWordExplain = (String) JOptionPane.showInputDialog(rootPane, 
+                        "Bạn muốn sửa giải nghĩa như thế nào?", "Sửa giải nghĩa",
+                        JOptionPane.PLAIN_MESSAGE);
+                Connection connection = null;
+                PreparedStatement htmlStatement = null;
+                PreparedStatement desStatement = null;
+                try {
+                    connection = DriverManager.getConnection("jdbc:sqlite:dict_hh.db");
+
+                    String updateSQL = "UPDATE av SET html = ? WHERE id = ?";
+                    htmlStatement = connection.prepareStatement(updateSQL);
+                    String htmlEx = "<h1>" + listOfWords.getSelectedValue() + "</h1>"
+                            + "<ul><li>" + editWordExplain + "</li></ul>";
+                    htmlStatement.setString(1, htmlEx);
+                    htmlStatement.setInt(2, list_mod.size() + 1);
+                    htmlStatement.executeUpdate();
+
+                    updateSQL = "UPDATE av SET description = ? WHERE id = ?";
+                    desStatement = connection.prepareStatement(updateSQL);
+                    desStatement.setString(1, editWordExplain);
+                    desStatement.setInt(2, list_mod.size() + 1);
+                    desStatement.executeUpdate();
+                    words_list.get(listOfWords.getSelectedIndex())
+                        .setWord_explain(htmlEx);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
     }
 
