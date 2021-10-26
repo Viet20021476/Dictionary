@@ -730,11 +730,11 @@ public class DictionaryApplication extends javax.swing.JFrame implements ActionL
                     proStatement.setInt(2, id);
                     proStatement.executeUpdate();
                     
-                    words_list.get(listOfWords.getSelectedIndex())
-                        .setWord_explain(htmlEx);
                 } catch (SQLException ex) {
                     Logger.getLogger(DictionaryApplication.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                words_list.get(listOfWords.getSelectedIndex()).setWord_explain(htmlEx);
+                txtWordex.setText(findWordEx(listOfWords.getSelectedValue()));
             }
         }
     }
